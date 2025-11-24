@@ -1,4 +1,4 @@
-import { GameBoard } from "./game-board.model"
+import { GameBoard } from "../../datasource/model/game-board.model"
 import { v4 as uuidv4 } from "uuid"
 
 

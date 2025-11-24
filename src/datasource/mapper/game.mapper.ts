@@ -1,4 +1,4 @@
-import { CurrentGame } from "../model/current-game.model";
+import { CurrentGame } from "../../domain/model/current-game.model";
 import { GameDTO } from "../model/game-dto.model";
 
 

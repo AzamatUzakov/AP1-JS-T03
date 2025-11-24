@@ -1,5 +1,5 @@
 import { IGameService } from "../interface/game.service.interface";
-import { CurrentGame } from './../../datasource/model/current-game.model';
+import { CurrentGame } from '../model/current-game.model';
 import { InMemoryGameRepository } from './../../datasource/repository/in-memory-game.repository';
 import { GameMapper } from "src/datasource/mapper/game.mapper";
 import { GameBoard } from 'src/datasource/model/game-board.model';
