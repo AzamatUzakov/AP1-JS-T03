@@ -1,6 +1,7 @@
+import { Injectable } from "@nestjs/common";
 import { GameDTO } from "../model/game-dto.model";
 
-
+@Injectable()
 export class InMemoryGameRepository {
     private game: Map<string, GameDTO> = new Map()//Хранит данные по id
 
@@ -15,5 +16,4 @@ export class InMemoryGameRepository {
     getAll(): GameDTO[] {//Возврощает все игры
         return Array.from(this.game.values())
     }
-
 }

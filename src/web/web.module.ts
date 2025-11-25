@@ -1,17 +1,12 @@
 import { Module } from "@nestjs/common";
 import { GameController } from "./controller/game.controller";
-import { GameService } from "src/domain/service/game.service";
-import { InMemoryGameRepository } from "src/datasource/repository/in-memory-game.repository";
+import { DomainModule } from "../domain/domain.module";
 
 @Module({
+    imports: [DomainModule],
     controllers: [GameController],
-    providers: [
-        GameService,
-        InMemoryGameRepository// репозиторий внедряется в сервис
-    ]
 })
 //Контроллер знает только о сервисе, сервис знает репозиторий
 //NestJS сам создаёт экземпляры(Dependency Injection)
-//Мы подключили репозиторий напрямую, чтобы сервис мог работать с ним
-
+//Мы подключили репозиторий через DomainModule, чтобы слой web ничего не знал о datasource
 export class WebModule { }

@@ -1,4 +1,10 @@
 import { Module } from "@nestjs/common";
+import { GameService } from "./service/game.service";
+import { DatasourceModule } from "../datasource/datasource.module";
 
-@Module({})
-export class DomainModule{}
+@Module({
+  imports: [DatasourceModule],
+  providers: [GameService],
+  exports: [GameService],
+})
+export class DomainModule {}
