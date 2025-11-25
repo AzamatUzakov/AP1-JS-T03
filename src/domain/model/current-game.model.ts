@@ -9,8 +9,8 @@ export class CurrentGame {
 
 
     constructor(board?: GameBoard) {
-        this.id = uuidv4()//уникально id для игры
-        this.board = board || [ //// создаём пустое поле 3x3
+        this.id = uuidv4()
+        this.board = board || [
             [0, 0, 0],
             [0, 0, 0],
             [0, 0, 0],

@@ -12,7 +12,7 @@ const COMPUTER = 2;
 export class GameService implements IGameService {
     constructor(private repo: InMemoryGameRepository) { }
 
-    getNextMove(game: CurrentGame): CurrentGame { // запускает Минимакс и возвращает ход компьютера
+    getNextMove(game: CurrentGame): CurrentGame {
         if (this.isGameOver(game)) {
             return game;
         }
@@ -32,7 +32,7 @@ export class GameService implements IGameService {
         return updatedGame;
     }
 
-    validateBoard(game: CurrentGame, newBoard: GameBoard): boolean { // убеждается, что игрок сделал ровно один допустимый ход
+    validateBoard(game: CurrentGame, newBoard: GameBoard): boolean {
         if (!this.isBoardShapeValid(newBoard) || this.isGameOver(game)) {
             return false;
         }
@@ -45,28 +45,28 @@ export class GameService implements IGameService {
         return this.countMarks(newBoard, HUMAN) <= this.countMarks(newBoard, COMPUTER) + 1;
     }
 
-    isGameOver(game: CurrentGame): boolean { // проверяет победу или ничью
+    isGameOver(game: CurrentGame): boolean {
         return this.checkWinner(game.board) !== null || this.isBoardFull(game.board);
     }
 
-    saveGame(game: CurrentGame): void { // сохраняет текущее состояние в репозитории
+    saveGame(game: CurrentGame): void {
         this.repo.save(GameMapper.toDTO(game));
     }
 
-    getGameById(id: string): CurrentGame | undefined { // достаёт игру по UUID
+    getGameById(id: string): CurrentGame | undefined {
         const dto = this.repo.getById(id);
         return dto ? GameMapper.toDomain(dto) : undefined;
     }
 
-    private cloneBoard(board: GameBoard): GameBoard { // создаёт копию матрицы, чтобы не мутировать оригинал
+    private cloneBoard(board: GameBoard): GameBoard {
         return board.map(row => [...row]);
     }
 
-    private isBoardShapeValid(board: GameBoard): boolean { // проверяет размер 3x3 и допустимые значения
+    private isBoardShapeValid(board: GameBoard): boolean {
         return board.length === 3 && board.every(row => row.length === 3 && row.every(cell => [0, HUMAN, COMPUTER].includes(cell)));
     }
 
-    private countBoardDiffs(original: GameBoard, updated: GameBoard) { // считает сколько клеток изменилось
+    private countBoardDiffs(original: GameBoard, updated: GameBoard) {
         let playerMoves = 0;
         let computerMoves = 0;
         let invalidChange = false;
@@ -88,15 +88,15 @@ export class GameService implements IGameService {
         return { playerMoves, computerMoves, invalidChange };
     }
 
-    private countMarks(board: GameBoard, mark: number): number { // считает количество ходов каждого игрока
+    private countMarks(board: GameBoard, mark: number): number {
         return board.flat().filter(cell => cell === mark).length;
     }
 
-    private isBoardFull(board: GameBoard): boolean { // определяет, заполнено ли поле
+    private isBoardFull(board: GameBoard): boolean {
         return board.every(row => row.every(cell => cell !== 0));
     }
 
-    private checkWinner(board: GameBoard): number | null { // ищет три в ряд и возвращает победителя
+    private checkWinner(board: GameBoard): number | null {
         const lines = [
             board[0], board[1], board[2],
             [board[0][0], board[1][0], board[2][0]],
@@ -115,7 +115,7 @@ export class GameService implements IGameService {
         return null;
     }
 
-    private minimax(board: GameBoard, depth: number, isMaximizing: boolean): number { // классический алгоритм Минимакс
+    private minimax(board: GameBoard, depth: number, isMaximizing: boolean): number {
         const winner = this.checkWinner(board);
         if (winner === COMPUTER) {
             return 10 - depth;
@@ -154,7 +154,7 @@ export class GameService implements IGameService {
         }
     }
 
-    private findBestMove(board: GameBoard): { row: number; col: number } | null { // подбирает клетку с максимальным скором
+    private findBestMove(board: GameBoard): { row: number; col: number } | null {
         let bestVal = -Infinity;
         let move: { row: number; col: number } | null = null;
 

@@ -5,16 +5,16 @@ import { GameMapper } from "../mapper/game.mapper";
 
 
 
-@Controller("game")//маршрутизатор /game
+@Controller("game")
 export class GameController {
-    constructor(private readonly gameService: GameService) { } // DI сервиса домена
+    constructor(private readonly gameService: GameService) { }
 
 
-    @Post(":id")//endpoint для хода пользователя
-    play(@Param("id") id: string, @Body() dto: GameDto): GameDto { // обрабатывает ход игрока
-        const currentGame = this.gameService.getGameById(id)//Получаем игру по ID, валидируем поле, делаем ход компьютера, сохраняем
+    @Post(":id")
+    play(@Param("id") id: string, @Body() dto: GameDto): GameDto {
+        const currentGame = this.gameService.getGameById(id)
 
-        if (!currentGame) {//Если игра или поле некорректны — возвращаем ошибку
+        if (!currentGame) {
             throw new BadRequestException('Игра с таким ID не найдена');
         }
 
@@ -29,11 +29,11 @@ export class GameController {
         const newGame = GameMapper.toDomain(dto)
         newGame.id = currentGame.id;
 
-        if (!this.gameService.validateBoard(currentGame, newGame.board)) {//Если игра или поле некорректны — возвращаем ошибку
+        if (!this.gameService.validateBoard(currentGame, newGame.board)) {
             throw new BadRequestException('Некорректное игровое поле');
         }
 
-        const updatedGame = this.gameService.getNextMove(newGame);//Возвращаем обновлённую игру клиенту
+        const updatedGame = this.gameService.getNextMove(newGame);
         this.gameService.saveGame(updatedGame);
 
         return GameMapper.toDTO(updatedGame);

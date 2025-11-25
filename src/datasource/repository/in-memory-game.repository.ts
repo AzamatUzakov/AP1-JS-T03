@@ -3,17 +3,17 @@ import { GameDTO } from "../model/game-dto.model";
 
 @Injectable()
 export class InMemoryGameRepository {
-    private game: Map<string, GameDTO> = new Map()//Хранит данные по id
+    private game: Map<string, GameDTO> = new Map()
 
-    save(game: GameDTO): void {//Сохноряет или обновляет игру
+    save(game: GameDTO): void {
         this.game.set(game.id, game)
     }
 
-    getById(id: string): GameDTO | undefined {//Достает игру по UUID
+    getById(id: string): GameDTO | undefined {
         return this.game.get(id)
     }
 
-    getAll(): GameDTO[] {//Возврощает все игры
+    getAll(): GameDTO[] {
         return Array.from(this.game.values())
     }
 }
